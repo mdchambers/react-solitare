@@ -2,14 +2,8 @@ import React from "react";
 
 import classes from "./Card.module.scss";
 
-// var context = require.context("../../assets/cards", true, /\.(svg)$/);
-// var files = {};
-
-// context.keys().forEach(filename => {
-//   files[filename] = context(filename);
-// });
-// console.log(files);
-
+// Suite: 0-4
+// Value: 1-12
 interface Props {
   suite: number;
   value: number;
@@ -22,11 +16,23 @@ const valueMap: string[] = ["jack", "queen", "king"];
 const Card = (props: Props) => {
   const fetchImgUrl = (suite: number, value: number) => {
     let uri = cardDir + "/";
-    if (value > 9) {
-      uri += valueMap[value - 10];
-    } else {
-      uri += value;
+    switch(value){
+      case 1:
+        uri += "ace"
+        break;
+      case 10:
+        uri += "jack"
+        break;
+      case 11:
+        uri += "queen";
+        break;
+      case 12:
+        uri += "king";
+        break;
+      default:
+        uri += value;
     }
+
     uri += "_of_" + suiteMap[suite] + ".svg";
     return uri;
   };

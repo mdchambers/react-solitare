@@ -1,10 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import { Route, Switch } from "react-router-dom";
 
 import "./App.css";
 
 import Header from "./components/Header/Header";
 import Board from "./containers/Board/Board";
+import Testbed from "./Test/Testbed";
 
 const initialCards = [[0, 5], [1, 6]];
 
@@ -70,13 +72,21 @@ const App: React.FC = () => {
         resetHandler={reset}
         fullSetHandler={setToFullSet}
       />
-      <Board
-        deck_empty={false}
-        waste_top={[1, 1]}
-        foundations={foundations}
-        tableaus={tableaus}
-        // tableaus={[[1, 1], [1, 1]]}
-      />
+      <Switch>
+        <Route path="/test" render={props => <Testbed />} />
+        <Route
+          path="/"
+          render={props => (
+            <Board
+              deck_empty={false}
+              waste_top={[1, 1]}
+              foundations={foundations}
+              tableaus={tableaus}
+              // tableaus={[[1, 1], [1, 1]]}
+            />
+          )}
+        />
+      </Switch>
     </div>
   );
 };

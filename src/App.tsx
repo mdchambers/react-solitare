@@ -42,16 +42,41 @@ const App: React.FC = () => {
     setCards(fullCards);
   };
 
+  const populateTableau = () => {
+    const tableau = [];
+    for (let i = 1; i <= 7; i += 1) {
+      const column = [];
+      for (let j = 1; j <= i; j += 1) {
+        column.push([i % 4, j]);
+      }
+      tableau.push(column);
+    }
+    return tableau;
+  };
+
+  const populateFoundations = () => {
+    return [[0, 1], [1, 1], [2, 1], [3, 1]];
+  };
+
+  const tableaus = populateTableau();
+  console.log(tableaus);
+  const foundations = populateFoundations();
+
   return (
     <div className="App">
-      <p>{cards.length}</p>
       <Header
         rerollHandler={reroll}
         addHandler={addCard}
         resetHandler={reset}
         fullSetHandler={setToFullSet}
       />
-      <Board cards={cards} />
+      <Board
+        deck_empty={false}
+        waste_top={[1, 1]}
+        foundations={foundations}
+        tableaus={tableaus}
+        // tableaus={[[1, 1], [1, 1]]}
+      />
     </div>
   );
 };

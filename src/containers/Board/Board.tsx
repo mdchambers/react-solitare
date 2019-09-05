@@ -1,20 +1,42 @@
 import React from "react";
 
-import Card from "../../components/Card/Card";
+import Deck from "../../components/BoardComponents/Deck/Deck";
+import Foundation from "../../components/BoardComponents/Foundation/Foundation";
+import Tableau from "../../components/BoardComponents/Tableau/Tableau";
+import Waste from "../../components/BoardComponents/Waste/Waste";
+
+// import Card from "../../components/Card/Card";
 
 import classes from "./Board.module.scss";
 
+// Components to render:
+// Deck
+// Waste
+// Foundations (4)
+// Tableau (7)
+
+// props:
+// deck_empty
+// waste_top
+// foundations
+// tableaus
+
 interface Props {
-  cards: number[][];
+  deck_empty: boolean;
+  waste_top: number[];
+  foundations: number[][];
+  tableaus: number[][][];
 }
 
 const Board = (props: Props) => {
-  // console.log(props.cards);
-  const cardComponents = props.cards.map((c, idx) => {
-    return <Card key={idx} suite={c[0]} value={c[1]} />;
-  });
-
-  return <div className={classes.board}>{cardComponents}</div>;
+  return (
+    <div className={classes.board}>
+      <Deck deck_empty={props.deck_empty} />
+      <Waste waste_top={props.waste_top} />
+      <Foundation foundations={props.foundations} />
+      <Tableau tableaus={props.tableaus} />
+    </div>
+  );
 };
 
 export default Board;

@@ -1,6 +1,6 @@
 import React from "react";
 
-
+import { useDrag } from "react-dnd";
 
 import classes from "./Card.module.scss";
 
@@ -17,6 +17,12 @@ const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
 const valueMap: string[] = ["jack", "queen", "king"];
 
 const Card = (props: Props) => {
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: "card" },
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging()
+    })
+  });
   const fetchImgUrl = (suite: number, value: number) => {
     if (value === 0) {
       return process.env.PUBLIC_URL + "/img/card_back.svg";
@@ -45,8 +51,8 @@ const Card = (props: Props) => {
 
   const imgURI = fetchImgUrl(props.suite, props.value);
   return (
-    <div className={classes.card}>
-      <img src={imgURI}></img>
+    <div ref={drag} className={classes.card}>
+      <img style={{ opacity: isDragging ? 0.1 : 1 }} src={imgURI}></img>
     </div>
   );
 };

@@ -1,10 +1,12 @@
 import React from "react";
 import Card from "../../../Card/Card";
 
+import { CardSpec } from "../../../../constants";
+
 import classes from "./Column.module.scss";
 
 interface Props {
-  cards: number[][];
+  cards: CardSpec[];
 }
 
 const Column = (props: Props) => {
@@ -17,13 +19,9 @@ const Column = (props: Props) => {
       </div>
     );
   }
-  const top_card = props.cards[props.cards.length - 1];
-  if (num_cards > 1) {
-    for (let i = 0; i < num_cards; i += 1) {
-      cardEle.push(<Card suite={0} value={0} />);
-    }
+  for (let i = 0; i < num_cards; i += 1) {
+    cardEle.push(<Card {...props.cards[i]} />);
   }
-  cardEle.push(<Card suite={top_card[0]} value={top_card[1]} />);
 
   return <div className={classes.column}>{cardEle}</div>;
 };

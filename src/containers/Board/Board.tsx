@@ -37,7 +37,7 @@ const Board = (props: Props) => {
   return (
     <div className={classes.board}>
       <Deck deck_empty={props.deck_empty} />
-      <Waste cards={waste} />
+      <Waste cards={props.waste} />
       <Foundation foundations={props.foundations} />
       <Tableau tableaus={props.tableaus} />
     </div>

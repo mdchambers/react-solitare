@@ -1,11 +1,13 @@
 import React from "react";
 
+import { CardSpec } from "../../../constants";
+
 import Column from "./Column/Column";
 
 import classes from "./Tableau.module.scss";
 
 interface Props {
-  tableaus: number[][][];
+  tableaus: CardSpec[][];
 }
 const Tableau = (props: Props) => {
   return (

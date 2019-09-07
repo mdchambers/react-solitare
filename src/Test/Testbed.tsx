@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { CardSpec } from "../constants";
+
 import Tableau from "../components/BoardComponents/Tableau/Tableau";
 
 import classes from "./Testbed.module.scss";
@@ -37,16 +39,12 @@ const populateTableau = () => {
 //   ];
 // };
 
-
-
-
 const Testbed = () => {
-
   return (
     <React.Fragment>
       <p>testbed</p>
       <div className={classes.board}>
-        <Tableau tableaus={cards} />
+        {/* <Tableau tableaus={cards} /> */}
       </div>
     </React.Fragment>
   );

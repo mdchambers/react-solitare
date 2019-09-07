@@ -36,7 +36,6 @@ const populateTableau = () => {
 // };
 
 const Testbed = () => {
-  const [cards, useCards] = useState(populateTableau());
 
   return (
     <React.Fragment>

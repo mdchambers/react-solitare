@@ -4,7 +4,7 @@ import { useDrag } from "react-dnd";
 
 import classes from "./Card.module.scss";
 
-// Suite: 0-4
+// Suite: 0-3
 // Value: 1-12
 interface Props {
   suite: number;

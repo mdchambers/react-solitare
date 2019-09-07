@@ -10,6 +10,8 @@ import classes from "./Testbed.module.scss";
 //  Remove card from origin array
 //  Add card to destination array
 //  Rerender
+
+// Creates 7 stacks of ten cards
 const populateTableau = () => {
   const tableau = [];
   for (let i = 1; i <= 7; i += 1) {
@@ -34,6 +36,9 @@ const populateTableau = () => {
 //     [[1, 1]]
 //   ];
 // };
+
+
+
 
 const Testbed = () => {
 

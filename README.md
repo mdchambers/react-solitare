@@ -6,6 +6,12 @@ A simple solitare game built with React hooks and Redux
 
 * App
   * Handles game state (win/lose conditions)
+  * State
+    * deck
+      * Cards in draw deck
+    * waste
+      * Cards in waste deck
+      * 
 * Header
   * Info and controls
 * Board

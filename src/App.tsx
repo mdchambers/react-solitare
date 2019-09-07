@@ -8,13 +8,67 @@ import Header from "./components/Header/Header";
 import Board from "./containers/Board/Board";
 import Testbed from "./Test/Testbed";
 
-const App: React.FC = () => {
-  const [deck, setDeck] = useState();
-  const [waste, setWaste] = useState();
-  const [foundations, setFoundations] = useState();
-  const [tableaus, setTableaus] = useState();
+import { CardSpec, gameStates } from "./constants";
 
-  const newGame = () => {};
+function shuffle<T>(array: T[]): T[] {
+  let counter = array.length;
+
+  // While there are elements in the array
+  while (counter > 0) {
+    // Pick a random index
+    let index = Math.floor(Math.random() * counter);
+
+    // Decrease counter by 1
+    counter--;
+
+    // And swap the last element with it
+    let temp = array[counter];
+    array[counter] = array[index];
+    array[index] = temp;
+  }
+
+  return array;
+}
+
+const App: React.FC = () => {
+  const [gameState, setGameState] = useState(gameStates.INITIAL);
+  const [deck, setDeck] = useState<CardSpec[]>([]);
+  const [waste, setWaste] = useState<CardSpec[]>([]);
+  const [foundations, setFoundations] = useState<CardSpec[][]>([
+    [],
+    [],
+    [],
+    []
+  ]);
+  const [tableaus, setTableaus] = useState<CardSpec[][]>([]);
+
+  const newGame = () => {
+    // Generate all cards;
+    const allCards = [];
+    for (let suite = 0; suite <= 3; suite += 1) {
+      for (let value = 1; value <= 12; value += 1) {
+        allCards.push({
+          suite: suite,
+          value: value,
+          visible: false
+        });
+      }
+    }
+
+    const shuffledCards = shuffle(allCards);
+
+    // Place in tableaus
+    const newTableaus = [];
+    for (let i = 1; i <= 7; i += 1) {
+      newTableaus.push(shuffledCards.splice(0, i));
+    }
+
+    // Set states
+    setDeck(shuffledCards);
+    setTableaus(newTableaus);
+    setGameState(gameStates.RUNNING);
+  };
+
   const randomCard = () => {
     // return [Math.floor(Math.random() * 4), Math.floor(Math.random() * 12) + 1];
   };
@@ -48,7 +102,6 @@ const App: React.FC = () => {
   };
 
   const populateTableau = () => {
-    
     // return tableau;
   };
 
@@ -59,6 +112,10 @@ const App: React.FC = () => {
   // const tableaus = populateTableau();
   // console.log(tableaus);
   // const foundations = populateFoundations();
+
+  if (gameState === gameStates.INITIAL) {
+    newGame();
+  }
 
   return (
     <div className="App">
@@ -76,7 +133,7 @@ const App: React.FC = () => {
           render={props => (
             <Board
               deck_empty={deck.length === 0}
-              waste_top={waste}
+              waste={waste}
               foundations={foundations}
               tableaus={tableaus}
             />

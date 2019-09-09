@@ -8,7 +8,7 @@ import Header from "./components/Header/Header";
 import Board from "./containers/Board/Board";
 import Testbed from "./Test/Testbed";
 
-import { CardSpec, gameStates } from "./constants";
+import { CardSpec, gameStates, CardHandlerFunc } from "./constants";
 
 function shuffle<T>(array: T[]): T[] {
   let counter = array.length;
@@ -109,6 +109,15 @@ const App: React.FC = () => {
     // return [[0, 1], [1, 1], [2, 1], [3, 1]];
   };
 
+  const deckClickHandler = (
+    event: any,
+    suite: number,
+    value: number,
+    position: string
+  ) => {
+    console.log("deck clicked");
+  };
+
   // const tableaus = populateTableau();
   // console.log(tableaus);
   // const foundations = populateFoundations();
@@ -132,6 +141,7 @@ const App: React.FC = () => {
           path="/"
           render={props => (
             <Board
+              onDeckClick={deckClickHandler}
               deck_empty={deck.length === 0}
               waste={waste}
               foundations={foundations}

@@ -2,6 +2,8 @@ import React from "react";
 
 import { useDrag } from "react-dnd";
 
+import { CardHandlerFunc } from "../../constants";
+
 import classes from "./Card.module.scss";
 
 // Suite: 0-3
@@ -10,6 +12,7 @@ interface Props {
   suite: number;
   value: number;
   visible: boolean;
+  onClick?: CardHandlerFunc;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
@@ -54,7 +57,11 @@ const Card = (props: Props) => {
   }
   return (
     <div ref={drag} className={classes.card}>
-      <img style={{ opacity: isDragging ? 0.1 : 1 }} src={imgURI}></img>
+      <img
+        onClick={props.onClick}
+        style={{ opacity: isDragging ? 0.1 : 1 }}
+        src={imgURI}
+      ></img>
     </div>
   );
 };

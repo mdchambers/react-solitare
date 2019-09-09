@@ -4,8 +4,19 @@ export interface CardSpec {
   visible: boolean;
 }
 
+export interface CardHandlerFunc {
+  (event: any, suite: number, value: number, position: string): void;
+}
+
 export const gameStates = {
   INITIAL: "initial",
   RUNNING: "running",
   ENDED: "ended"
+};
+
+export const cardStates = {
+  DECK: "deck",
+  WASTE: "waste",
+  FOUNDATION: "foundation",
+  TABLEAU: "tableau"
 };

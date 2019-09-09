@@ -12,7 +12,8 @@ interface Props {
   suite: number;
   value: number;
   visible: boolean;
-  onClick?: CardHandlerFunc;
+
+  onClick?: (event: any) => void;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
@@ -61,6 +62,7 @@ const Card = (props: Props) => {
         onClick={props.onClick}
         style={{ opacity: isDragging ? 0.1 : 1 }}
         src={imgURI}
+        alt="card face"
       ></img>
     </div>
   );

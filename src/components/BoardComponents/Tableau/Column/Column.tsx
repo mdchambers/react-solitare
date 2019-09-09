@@ -1,12 +1,15 @@
 import React from "react";
 import Card from "../../../Card/Card";
 
-import { CardSpec } from "../../../../constants";
+import { CardSpec, CardHandlerFunc, cardStates } from "../../../../constants";
 
 import classes from "./Column.module.scss";
 
 interface Props {
   cards: CardSpec[];
+  tableauID: number;
+  onColumnClick: CardHandlerFunc;
+  onColumnDblClick: CardHandlerFunc;
 }
 
 const Column = (props: Props) => {
@@ -20,7 +23,24 @@ const Column = (props: Props) => {
     );
   }
   for (let i = 0; i < num_cards; i += 1) {
-    cardEle.push(<Card {...props.cards[i]} />);
+    cardEle.push(
+      <Card
+        key={i}
+        {...props.cards[i]}
+        onClick={(e: any) =>
+          props.onColumnClick(
+            e,
+            props.cards[i].suite,
+            props.cards[i].value,
+            cardStates.TABLEAU,
+            {
+              tableauID: props.tableauID,
+              columnID: i
+            }
+          )
+        }
+      />
+    );
   }
 
   return <div className={classes.column}>{cardEle}</div>;

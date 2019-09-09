@@ -5,7 +5,13 @@ export interface CardSpec {
 }
 
 export interface CardHandlerFunc {
-  (event: any, suite: number, value: number, position: string): void;
+  (
+    event: any,
+    suite: number,
+    value: number,
+    position: string,
+    opts?: Object
+  ): void;
 }
 
 export const gameStates = {

@@ -1,8 +1,9 @@
 import React from "react";
 
 import Card from "../../Card/Card";
+import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
 
-import { CardHandlerFunc } from "../../../constants";
+import { CardHandlerFunc, cardStates } from "../../../constants";
 
 import classes from "./Deck.module.scss";
 
@@ -13,10 +14,10 @@ interface Props {
 
 const Deck = (props: Props) => {
   const card = props.deck_empty ? (
-    <div />
+    <CardPlaceholder solid />
   ) : (
     <Card
-      onClick={(e: any) => props.onDeckClick(e, 0, 0, "deck")}
+      onClick={(e: any) => props.onDeckClick(e, 0, 0, cardStates.DECK)}
       suite={0}
       value={0}
       visible={false}

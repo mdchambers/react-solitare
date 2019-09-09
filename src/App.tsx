@@ -8,7 +8,7 @@ import Header from "./components/Header/Header";
 import Board from "./containers/Board/Board";
 import Testbed from "./Test/Testbed";
 
-import { CardSpec, gameStates, CardHandlerFunc } from "./constants";
+import { CardSpec, gameStates, cardStates } from "./constants";
 
 function shuffle<T>(array: T[]): T[] {
   let counter = array.length;
@@ -29,6 +29,9 @@ function shuffle<T>(array: T[]): T[] {
 
   return array;
 }
+
+const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
+const valueMap: string[] = ["jack", "queen", "king"];
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState(gameStates.INITIAL);
@@ -62,9 +65,14 @@ const App: React.FC = () => {
     for (let i = 1; i <= 7; i += 1) {
       newTableaus.push(shuffledCards.splice(0, i));
     }
+    // Flip top cards
+    newTableaus.forEach(t => {
+      t[t.length - 1].visible = true;
+    });
 
     // Set states
     setDeck(shuffledCards);
+    setWaste([]);
     setTableaus(newTableaus);
     setGameState(gameStates.RUNNING);
   };
@@ -109,14 +117,47 @@ const App: React.FC = () => {
     // return [[0, 1], [1, 1], [2, 1], [3, 1]];
   };
 
-  const deckClickHandler = (
+  const cardClickHandler = (
     event: any,
     suite: number,
     value: number,
-    position: string
-  ) => {
-    console.log("deck clicked");
+    position: string,
+    opts?: Object
+  ): void => {
+    console.log(
+      `card of suite ${suiteMap[suite]} value ${
+        value > 9 ? valueMap[value - 10] : value
+      } @ ${position} clicked`
+    );
+    console.log(opts);
+
+    switch (position) {
+      case cardStates.DECK:
+        if (deck.length > 0) {
+          const newDeck = deck.slice(0);
+          const newWaste = waste.slice(0);
+          const cardToMv = newDeck.pop();
+          if (cardToMv) {
+            cardToMv.visible = true;
+            newWaste.unshift(cardToMv);
+          }
+          setDeck(newDeck);
+          setWaste(newWaste);
+        }
+
+        break;
+
+      default:
+        break;
+    }
   };
+
+  const cardDblClickHandler = (
+    e: any,
+    suite: number,
+    value: number,
+    position: string
+  ): void => {};
 
   // const tableaus = populateTableau();
   // console.log(tableaus);
@@ -141,7 +182,8 @@ const App: React.FC = () => {
           path="/"
           render={props => (
             <Board
-              onDeckClick={deckClickHandler}
+              cardClickHandler={cardClickHandler}
+              cardDblClickHandler={cardDblClickHandler}
               deck_empty={deck.length === 0}
               waste={waste}
               foundations={foundations}

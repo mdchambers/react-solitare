@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import Card from "../../Card/Card";
+import CardPlaceholder from '../../CardPlaceholder/CardPlaceholder';
 
 import { CardSpec } from "../../../constants";
 
@@ -15,7 +16,7 @@ const Foundation = (props: Props) => {
     if (f.length > 0) {
       topcards.push(<Card {...f[f.length - 1]} visible={true} />);
     } else {
-      topcards.push(null);
+      topcards.push(<CardPlaceholder/>);
     }
   });
   return <React.Fragment>{topcards}</React.Fragment>;

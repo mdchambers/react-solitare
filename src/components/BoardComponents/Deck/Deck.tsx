@@ -9,7 +9,11 @@ interface Props {
 }
 
 const Deck = (props: Props) => {
-  const card = props.deck_empty ? <div /> : <Card suite={0} value={0} />;
+  const card = props.deck_empty ? (
+    <div />
+  ) : (
+    <Card suite={0} value={0} visible={false} />
+  );
   return <div className={classes.deck}>{card}</div>;
 };
 

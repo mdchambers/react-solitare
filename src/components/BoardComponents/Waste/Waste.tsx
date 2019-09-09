@@ -1,18 +1,24 @@
-import React from 'react'
+import React from "react";
 import Card from "../../Card/Card";
+import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
 
-import classes from './Waste.module.scss';
+import { CardSpec, gameStates } from "../../../constants";
+
+import classes from "./Waste.module.scss";
 
 interface Props {
-  waste_top: number[];
+  cards: CardSpec[];
 }
 
 const Waste = (props: Props) => {
-  return (
-    <div className={classes.waste}>
-      <Card suite={props.waste_top[0]} value={props.waste_top[1]} />
-    </div>
-  )
-}
+  // Render top card
+  let cardEle = [];
+  if (props.cards.length > 0) {
+    cardEle.push(<Card {...props.cards[0]} />);
+  } else {
+    cardEle.push(<CardPlaceholder />);
+  }
+  return <div className={classes.waste}>{cardEle}</div>;
+};
 
-export default Waste
+export default Waste;

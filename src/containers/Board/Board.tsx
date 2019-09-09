@@ -9,6 +9,11 @@ import Waste from "../../components/BoardComponents/Waste/Waste";
 
 import classes from "./Board.module.scss";
 
+interface CardSpec {
+  suite: number;
+  value: number;
+  visible: boolean;
+}
 // Components to render:
 // Deck
 // Waste
@@ -23,16 +28,16 @@ import classes from "./Board.module.scss";
 
 interface Props {
   deck_empty: boolean;
-  waste_top: number[];
-  foundations: number[][];
-  tableaus: number[][][];
+  waste: CardSpec[];
+  foundations: CardSpec[][];
+  tableaus: CardSpec[][];
 }
 
 const Board = (props: Props) => {
   return (
     <div className={classes.board}>
       <Deck deck_empty={props.deck_empty} />
-      <Waste waste_top={props.waste_top} />
+      <Waste cards={props.waste} />
       <Foundation foundations={props.foundations} />
       <Tableau tableaus={props.tableaus} />
     </div>

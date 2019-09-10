@@ -15,6 +15,7 @@ interface Props {
   cards: CardSpec[];
   onWasteClick: CardHandlerFunc;
   onWasteDblClick: CardHandlerFunc;
+  selected: boolean;
 }
 
 const Waste = (props: Props) => {
@@ -31,6 +32,7 @@ const Waste = (props: Props) => {
             cardStates.WASTE
           )
         }
+        selected={props.selected}
         {...props.cards[0]}
       />
     );

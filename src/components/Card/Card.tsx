@@ -11,7 +11,8 @@ import classes from "./Card.module.scss";
 interface Props {
   suite: number;
   value: number;
-  visible: boolean;
+  visible?: boolean;
+  selected: boolean;
 
   onClick?: (event: any) => void;
 }

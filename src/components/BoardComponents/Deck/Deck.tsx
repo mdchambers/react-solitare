@@ -20,6 +20,7 @@ const Deck = (props: Props) => {
       onClick={(e: any) => props.onDeckClick(e, 0, 0, cardStates.DECK)}
       suite={0}
       value={0}
+      selected={false}
       visible={false}
     />
   );

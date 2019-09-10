@@ -10,6 +10,7 @@ interface Props {
   tableaus: CardSpec[][];
   onTableauClick: CardHandlerFunc;
   onTableauDblClick: CardHandlerFunc;
+  selection: { tableau: number; column: number } | null;
 }
 const Tableau = (props: Props) => {
   return (
@@ -20,6 +21,11 @@ const Tableau = (props: Props) => {
           <Column
             key={idx}
             tableauID={idx}
+            selection={
+              props.selection && props.selection.tableau === idx
+                ? props.selection.column
+                : null
+            }
             cards={c}
             onColumnClick={props.onTableauClick}
             onColumnDblClick={props.onTableauDblClick}

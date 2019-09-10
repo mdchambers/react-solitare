@@ -22,16 +22,10 @@ const Waste = (props: Props) => {
   // Render top card
   let card = null;
   if (props.cards.length > 0) {
+    props.cards[0].position = cardStates.WASTE;
     card = (
       <Card
-        onClick={e =>
-          props.onWasteClick(
-            e,
-            props.cards[0].suite,
-            props.cards[0].value,
-            cardStates.WASTE
-          )
-        }
+        onClick={e => props.onWasteClick(props.cards[0])}
         selected={props.selected}
         {...props.cards[0]}
       />

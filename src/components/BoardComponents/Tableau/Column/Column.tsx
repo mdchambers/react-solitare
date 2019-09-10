@@ -25,23 +25,16 @@ const Column = (props: Props) => {
   }
   for (let i = 0; i < num_cards; i += 1) {
     // console.log(props.cards[i]);
+    const card = props.cards[i];
+    card.position = cardStates.TABLEAU;
+    card.tableau = props.tableauID;
+    card.column = i;
     cardEle.push(
       <Card
         key={i}
         {...props.cards[i]}
         selected={props.selection === i}
-        onClick={(e: any) =>
-          props.onColumnClick(
-            e,
-            props.cards[i].suite,
-            props.cards[i].value,
-            cardStates.TABLEAU,
-            {
-              tableauID: props.tableauID,
-              columnID: i
-            }
-          )
-        }
+        onClick={(e: any) => props.onColumnClick(card)}
       />
     );
   }

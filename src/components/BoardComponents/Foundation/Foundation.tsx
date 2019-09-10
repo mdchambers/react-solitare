@@ -18,15 +18,7 @@ const Foundation = (props: Props) => {
     if (f.length > 0) {
       topcards.push(
         <Card
-          onClick={e =>
-            props.onFoundationClick(
-              e,
-              f[0].suite,
-              f[0].value,
-              cardStates.FOUNDATION,
-              { tableauID: 0, columnID: idx }
-            )
-          }
+          onClick={e => props.onFoundationClick(f[0])}
           key={idx}
           selected={props.selection === idx}
           {...f[f.length - 1]}

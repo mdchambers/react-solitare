@@ -164,19 +164,15 @@ const App: React.FC = () => {
     console.log(output);
   };
 
-  const cardClickHandler = (
-    event: any,
-    suite: number,
-    value: number,
-    position: string,
-    opts?: { tableauID: number; columnID: number }
-  ): void => {
+  const cardClickHandler = (card: CardSpec | null): void => {
+    console.log("card clicked");
     // If a card is already selected:
     // Unselect if same card
     if (
       selectedCard &&
-      selectedCard.suite === suite &&
-      selectedCard.value === value
+      card &&
+      selectedCard.suite === card.suite &&
+      selectedCard.value === card.value
     ) {
       // console.log("unsetting card");
       setSelectedCard(null);
@@ -184,56 +180,52 @@ const App: React.FC = () => {
       // Move selected card to position if move legal
       // If card is not selected:
       // Set clicked card as selected
-      switch (position) {
-        case cardStates.DECK:
-          if (deck.length > 0) {
-            const newDeck = deck.slice(0);
-            const newWaste = waste.slice(0);
-            const cardToMv = newDeck.pop();
-            if (cardToMv) {
-              cardToMv.visible = true;
-              newWaste.unshift(cardToMv);
+      if (card) {
+        switch (card.position) {
+          case cardStates.DECK:
+            if (deck.length > 0) {
+              const newDeck = deck.slice(0);
+              const newWaste = waste.slice(0);
+              const cardToMv = newDeck.pop();
+              if (cardToMv) {
+                cardToMv.visible = true;
+                newWaste.unshift(cardToMv);
+              }
+              setDeck(newDeck);
+              setWaste(newWaste);
             }
-            setDeck(newDeck);
-            setWaste(newWaste);
-          }
-          break;
-        case cardStates.WASTE:
-          setSelectedCard({
-            suite: suite,
-            value: value,
-            position: cardStates.WASTE
-          });
-          break;
-        case cardStates.TABLEAU:
-          if()
-          setSelectedCard({
-            suite: suite,
-            value: value,
-            position: cardStates.TABLEAU,
-            tableau: opts ? opts.tableauID : 0,
-            column: opts ? opts.columnID : 0
-          });
-          break;
-        case cardStates.FOUNDATION:
-          setSelectedCard({
-            suite: suite,
-            value: value,
-            position: cardStates.FOUNDATION
-          });
-          break;
+            break;
+          case cardStates.WASTE:
+            setSelectedCard({
+              suite: card.suite,
+              value: card.value,
+              position: cardStates.WASTE
+            });
+            break;
+          case cardStates.TABLEAU:
+            setSelectedCard({
+              suite: card.suite,
+              value: card.value,
+              position: cardStates.TABLEAU,
+              tableau: card.tableau,
+              column: card.column
+            });
+            break;
+          case cardStates.FOUNDATION:
+            setSelectedCard({
+              suite: card.suite,
+              value: card.value,
+              position: cardStates.FOUNDATION
+            });
+            break;
+        }
       }
     }
 
     // logCard({ suite, value, position, opts });
   };
 
-  const cardDblClickHandler = (
-    e: any,
-    suite: number,
-    value: number,
-    position: string
-  ): void => {};
+  const cardDblClickHandler = (card: CardSpec | null): void => {};
 
   // const tableaus = populateTableau();
   // console.log(tableaus);

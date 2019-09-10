@@ -8,13 +8,7 @@ export interface CardSpec {
 }
 
 export interface CardHandlerFunc {
-  (
-    event: any,
-    suite: number,
-    value: number,
-    position: string,
-    opts?: { tableauID: number; columnID: number }
-  ): void;
+  (card: CardSpec | null): void;
 }
 
 export const gameStates = {

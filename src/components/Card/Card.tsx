@@ -58,14 +58,22 @@ const Card = (props: Props) => {
     imgURI = process.env.PUBLIC_URL + "/img/card_back.svg";
   }
   return (
-    <div ref={drag} className={classes.card}>
-      <img
-        onClick={props.onClick}
-        style={{ opacity: isDragging ? 0.1 : 1 }}
-        src={imgURI}
-        alt="card face"
-      ></img>
-    </div>
+    <React.Fragment>
+      <div ref={drag} className={classes.card}>
+        <div
+          className={classes.overlay}
+          style={{ opacity: props.selected ? 0.75 : 1 }}
+        >
+          <img
+            onClick={props.onClick}
+            style={{ opacity: isDragging ? 0.1 : 1 }}
+            src={imgURI}
+            alt="card face"
+          ></img>
+        </div>
+      </div>
+      {/* {props.selected ? <div className={classes.overlay}></div> : null} */}
+    </React.Fragment>
   );
 };
 

@@ -206,6 +206,7 @@ const App: React.FC = () => {
           });
           break;
         case cardStates.TABLEAU:
+          if()
           setSelectedCard({
             suite: suite,
             value: value,

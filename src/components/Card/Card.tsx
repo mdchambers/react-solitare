@@ -15,6 +15,7 @@ interface Props {
   selected: boolean;
 
   onClick?: (event: any) => void;
+  onDblClick?: (event: any) => void;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
@@ -66,6 +67,7 @@ const Card = (props: Props) => {
         >
           <img
             onClick={props.onClick}
+            onDoubleClick={props.onDblClick}
             style={{ opacity: isDragging ? 0.1 : 1 }}
             src={imgURI}
             alt="card face"

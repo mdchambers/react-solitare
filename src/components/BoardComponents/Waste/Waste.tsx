@@ -26,6 +26,7 @@ const Waste = (props: Props) => {
     card = (
       <Card
         onClick={e => props.onWasteClick(props.cards[0])}
+        onDblClick={e => props.onWasteDblClick(props.cards[0])}
         selected={props.selected}
         {...props.cards[0]}
       />

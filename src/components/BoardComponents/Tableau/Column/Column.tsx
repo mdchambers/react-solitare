@@ -35,6 +35,7 @@ const Column = (props: Props) => {
         {...props.cards[i]}
         selected={props.selection === i}
         onClick={(e: any) => props.onColumnClick(card)}
+        onDblClick={(e: any) => props.onColumnDblClick(card)}
       />
     );
   }

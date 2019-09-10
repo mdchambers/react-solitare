@@ -94,6 +94,7 @@ const App: React.FC = () => {
     setWaste([]);
     setTableaus(newTableaus);
     setGameState(gameStates.RUNNING);
+    setSelectedCard(null);
   };
 
   const randomCard = () => {
@@ -101,7 +102,7 @@ const App: React.FC = () => {
   };
 
   const reroll = () => {
-    // console.log("reroll");
+    newGame();
   };
 
   const addCard = () => {
@@ -165,14 +166,16 @@ const App: React.FC = () => {
   };
 
   const cardClickHandler = (card: CardSpec | null): void => {
-    console.log("card clicked");
+    // console.log("card clicked");
     // If a card is already selected:
     // Unselect if same card
+    // console.log(card);
     if (
       selectedCard &&
       card &&
       selectedCard.suite === card.suite &&
-      selectedCard.value === card.value
+      selectedCard.value === card.value &&
+      card.position !== cardStates.DECK
     ) {
       // console.log("unsetting card");
       setSelectedCard(null);
@@ -182,7 +185,9 @@ const App: React.FC = () => {
       // Set clicked card as selected
       if (card) {
         switch (card.position) {
+          // Draw new card from deck
           case cardStates.DECK:
+            console.log("deck click");
             if (deck.length > 0) {
               const newDeck = deck.slice(0);
               const newWaste = waste.slice(0);
@@ -195,6 +200,7 @@ const App: React.FC = () => {
               setWaste(newWaste);
             }
             break;
+          // Set waste card as selected
           case cardStates.WASTE:
             setSelectedCard({
               suite: card.suite,
@@ -202,15 +208,34 @@ const App: React.FC = () => {
               position: cardStates.WASTE
             });
             break;
+          // Move card (and daughters) if valid
+          // Otherwise select new card
           case cardStates.TABLEAU:
-            setSelectedCard({
-              suite: card.suite,
-              value: card.value,
-              position: cardStates.TABLEAU,
-              tableau: card.tableau,
-              column: card.column
-            });
+            // IF top card and not flipped, flip on click
+            if (
+              card.tableau &&
+              !card.visible &&
+              card.column === tableaus[card.tableau].length - 1
+            ) {
+              flipCard(card.tableau);
+            }
+
+            // If prev card selected and move is valid, move card (stack)
+            else if (selectedCard && validMove(selectedCard, card)) {
+              moveCard(selectedCard, card);
+              // Otherwise set card as selected
+            } else {
+              setSelectedCard({
+                suite: card.suite,
+                value: card.value,
+                position: cardStates.TABLEAU,
+                tableau: card.tableau,
+                column: card.column
+              });
+            }
             break;
+          // Move prev selected card to foundation if selected and valid
+          // Otherwise, select foundation card
           case cardStates.FOUNDATION:
             setSelectedCard({
               suite: card.suite,
@@ -225,11 +250,143 @@ const App: React.FC = () => {
     // logCard({ suite, value, position, opts });
   };
 
-  const cardDblClickHandler = (card: CardSpec | null): void => {};
+  const validMove = (source: CardSpec, target: CardSpec): boolean => {
+    let suiteValid =
+      ((source.suite === 0 || source.suite === 3) &&
+        (target.suite === 1 || target.suite === 2)) ||
+      ((source.suite === 1 || source.suite === 2) &&
+        (target.suite === 0 || target.suite === 3));
+    let valueValid =
+      target.value - 1 === source.value ||
+      (target.value === 1 && source.value === 12);
+    let targetPositionValid = true;
+    if (
+      target.position === cardStates.TABLEAU &&
+      target.tableau &&
+      target.column
+    ) {
+      if (target.column !== tableaus[target.tableau].length - 1) {
+        targetPositionValid = false;
+      }
+    }
+    console.log(
+      `Valid move: ${suiteValid && valueValid && targetPositionValid}`
+    );
+    return suiteValid && valueValid && targetPositionValid;
+  };
 
-  // const tableaus = populateTableau();
-  // console.log(tableaus);
-  // const foundations = populateFoundations();
+  const moveCard = (source: CardSpec, target: CardSpec): void => {
+    // tableau to tableau move
+    if (
+      source.position === cardStates.TABLEAU &&
+      target.position === cardStates.TABLEAU &&
+      source.tableau !== undefined &&
+      source.column !== undefined &&
+      target.tableau !== undefined &&
+      target.column !== undefined
+    ) {
+      console.log("moving card");
+      let newSourceTableau = tableaus[source.tableau].splice(0);
+      let newTargetTableau = tableaus[target.tableau].splice(0);
+
+      let cardsToMove = newSourceTableau.splice(source.column);
+      newTargetTableau = newTargetTableau.concat(cardsToMove);
+
+      console.log(`Soruce: ${newSourceTableau}`);
+      console.log(`Target: ${newTargetTableau}`);
+
+      let newTableaus = tableaus.splice(0);
+      newTableaus[source.tableau] = newSourceTableau;
+      newTableaus[target.tableau] = newTargetTableau;
+
+      setTableaus(newTableaus);
+    }
+    // waste to tableau move
+    if (
+      source.position === cardStates.WASTE &&
+      target.position === cardStates.TABLEAU &&
+      target.tableau !== undefined &&
+      target.column !== undefined
+    ) {
+      console.log("moving card");
+      let newWaste = waste.splice(0);
+      let newTargetTableau = tableaus[target.tableau].splice(0);
+
+      let cardsToMove = newWaste.shift();
+      if (cardsToMove) {
+        newTargetTableau.push(cardsToMove);
+      }
+
+      let newTableaus = tableaus.splice(0);
+      newTableaus[target.tableau] = newTargetTableau;
+
+      setWaste(newWaste);
+      setTableaus(newTableaus);
+      setSelectedCard(null);
+    }
+  };
+
+  const flipCard = (tableau: number): void => {
+    const newColumn = tableaus[tableau].splice(0);
+    newColumn[newColumn.length - 1].visible = true;
+    const newTableaus = tableaus.splice(0);
+
+    newTableaus[tableau] = newColumn;
+    // console.log(newColumn);
+    // console.log(newTableaus);
+    setTableaus(newTableaus);
+  };
+
+  const cardDblClickHandler = (card: CardSpec | null) => {
+    console.log(`dbl click ${card}`);
+    // Move to foundation if possible
+    if (card && card.tableau !== undefined) {
+      // Check if bottom of tableau
+      if (card.column === tableaus[card.tableau].length - 1) {
+        for (let i = 0; i < foundations.length; i += 1) {
+          // If empty foundation and card is ace
+          if (
+            (card.value === 1 && foundations[i].length === 0) ||
+            (foundations[i].length > 0 &&
+              card.suite === foundations[i][0].suite &&
+              card.value - 1 ===
+                foundations[i][foundations[i].length - 1].value)
+          ) {
+            const newFoundations = foundations.splice(0);
+            newFoundations[i].push(card);
+
+            const newTableaus = tableaus.splice(0);
+            newTableaus[card.tableau].pop();
+
+            setFoundations(newFoundations);
+            setTableaus(newTableaus);
+          }
+        }
+      }
+    }
+    // Move from waste if possible
+    if (card && card.position === cardStates.WASTE) {
+      for (let i = 0; i < foundations.length; i += 1) {
+        // If empty foundation and card is ace
+        if (
+          (card.value === 1 && foundations[i].length === 0) ||
+          (foundations[i].length > 0 &&
+            card.suite === foundations[i][0].suite &&
+            card.value - 1 === foundations[i][foundations[i].length - 1].value)
+        ) {
+          const newFoundations = foundations.splice(0);
+          newFoundations[i].push(card);
+
+          const newWaste = waste.splice(0);
+          newWaste.shift();
+
+          setFoundations(newFoundations);
+          setWaste(newWaste);
+          setSelectedCard(null);
+        }
+      }
+    }
+  };
 
   if (gameState === gameStates.INITIAL) {
     newGame();

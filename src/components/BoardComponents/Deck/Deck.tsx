@@ -17,7 +17,9 @@ const Deck = (props: Props) => {
     <CardPlaceholder solid />
   ) : (
     <Card
-      onClick={(e: any) => props.onDeckClick(null)}
+      onClick={(e: any) =>
+        props.onDeckClick({ suite: 0, value: 0, position: cardStates.DECK })
+      }
       suite={0}
       value={0}
       selected={false}

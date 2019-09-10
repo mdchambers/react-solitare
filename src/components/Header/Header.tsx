@@ -15,7 +15,7 @@ const Header = (props: Props) => {
     <div className={classes.headerWrapper}>
       <h2>React Solitare</h2>
       <button onClick={props.newGameHandler}>New Game</button>
-      <button onClick={props.rerollHandler}>Reroll</button>
+      <button onClick={props.rerollHandler}>Reset</button>
       <button onClick={props.addHandler}>Add Card</button>
       <button onClick={props.resetHandler}>Reset</button>
       <button onClick={props.fullSetHandler}>Full Deck</button>

@@ -12,6 +12,7 @@ import classes from "./Board.module.scss";
 interface Props {
   cardClickHandler: CardHandlerFunc;
   cardDblClickHandler: CardHandlerFunc;
+  deckReloadHandler: () => void;
   deck_empty: boolean;
   waste: CardSpec[];
   foundations: CardSpec[][];
@@ -25,6 +26,7 @@ const Board = (props: Props) => {
       <Deck
         deck_empty={props.deck_empty}
         onDeckClick={props.cardClickHandler}
+        deckReloadHandler={props.deckReloadHandler}
       />
       <Waste
         cards={props.waste}

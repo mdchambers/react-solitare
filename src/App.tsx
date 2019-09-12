@@ -9,6 +9,8 @@ import Testbed from "./Test/Testbed";
 
 import { CardSpec, gameStates, cardStates } from "./constants";
 
+const DEBUG_FLAG = true;
+
 function shuffle<T>(array: T[]): T[] {
   let counter = array.length;
 
@@ -54,7 +56,7 @@ const App: React.FC = () => {
         selectedCard.value > 9
           ? valueMap[selectedCard.value - 10]
           : selectedCard.value
-      } @ ${selectedCard.position} clicked`;
+      } @ ${selectedCard.position} visible: ${selectedCard.visible} clicked`;
       // if (selectedCard.tableau || selectedCard.column) {
       output += ` col: ${selectedCard.tableau} pos: ${selectedCard.column}`;
       // }
@@ -64,12 +66,29 @@ const App: React.FC = () => {
     console.log(output);
   }, [selectedCard]);
 
-  const newGame = () => {
-    // Generate all cards;
-    const allCards = [];
+  const newDebugGame = (): void => {
+    const tabSuites = [[0, 1], [0, 1]];
+    const tabValues = [[1, 12], [1, 11]];
+    const newTableaus: CardSpec[][] = [];
+    for (let i = 0; i < tabSuites.length; i += 1) {
+      newTableaus.push([]);
+      for (let j = 0; j < tabSuites[i].length; j += 1) {
+        newTableaus[i].push({
+          suite: tabSuites[i][j],
+          value: tabValues[i][j],
+          visible: true
+        });
+      }
+    }
+
+    while (newTableaus.length < 7) {
+      newTableaus.push([]);
+    }
+
+    const newDeck = [];
     for (let suite = 0; suite <= 3; suite += 1) {
       for (let value = 1; value <= 12; value += 1) {
-        allCards.push({
+        newDeck.push({
           suite: suite,
           value: value,
           visible: false
@@ -77,25 +96,51 @@ const App: React.FC = () => {
       }
     }
 
-    const shuffledCards = shuffle(allCards);
-
-    // Place in tableaus
-    const newTableaus = [];
-    for (let i = 1; i <= 7; i += 1) {
-      newTableaus.push(shuffledCards.splice(0, i));
-    }
-    // Flip top cards
-    newTableaus.forEach(t => {
-      t[t.length - 1].visible = true;
-    });
-
-    // Set states
-    setDeck(shuffledCards);
+    setDeck(newDeck);
     setWaste([]);
     setTableaus(newTableaus);
     setFoundations([[], [], [], []]);
     setGameState(gameStates.RUNNING);
     setSelectedCard(null);
+  };
+
+  const newGame = (): void => {
+    if (DEBUG_FLAG) {
+      newDebugGame();
+      return;
+    } else {
+      // Generate all cards;
+      const allCards = [];
+      for (let suite = 0; suite <= 3; suite += 1) {
+        for (let value = 1; value <= 12; value += 1) {
+          allCards.push({
+            suite: suite,
+            value: value,
+            visible: false
+          });
+        }
+      }
+
+      const shuffledCards = shuffle(allCards);
+
+      // Place in tableaus
+      const newTableaus = [];
+      for (let i = 1; i <= 7; i += 1) {
+        newTableaus.push(shuffledCards.splice(0, i));
+      }
+      // Flip top cards
+      newTableaus.forEach(t => {
+        t[t.length - 1].visible = true;
+      });
+
+      // Set states
+      setDeck(shuffledCards);
+      setWaste([]);
+      setTableaus(newTableaus);
+      setFoundations([[], [], [], []]);
+      setGameState(gameStates.RUNNING);
+      setSelectedCard(null);
+    }
   };
 
   const randomCard = () => {
@@ -167,7 +212,7 @@ const App: React.FC = () => {
   };
 
   const cardClickHandler = (card: CardSpec | null): void => {
-    // console.log("card clicked");
+    console.log("card clicked");
     // If a card is already selected:
     // Unselect if same card
     // console.log(card);
@@ -226,13 +271,13 @@ const App: React.FC = () => {
               moveCard(selectedCard, card);
               // Otherwise set card as selected
             } else {
-              setSelectedCard({
-                suite: card.suite,
-                value: card.value,
-                position: cardStates.TABLEAU,
-                tableau: card.tableau,
-                column: card.column
-              });
+              setSelectedCard({ ...card });
+            }
+            break;
+          // Move to empty tableau
+          case cardStates.TABLEAU_BASE:
+            if (selectedCard) {
+              moveCard(selectedCard, card);
             }
             break;
           // Move prev selected card to foundation if selected and valid
@@ -328,9 +373,13 @@ const App: React.FC = () => {
 
     // Move to empty foundation
     if (target.tableau && target.position === cardStates.TABLEAU_BASE) {
+      console.log("moving to empty tableau");
+      console.log(source);
+      console.log(target);
       if (source.value === 12 && source.visible) {
         // Move to empty tableau
-        if (source.tableau && source.column) {
+        console.log("move valid");
+        if (source.tableau !== undefined && source.column !== undefined) {
           let newSourceTableau = tableaus[source.tableau].splice(0);
           let cardsToMv = newSourceTableau.splice(source.column);
 
@@ -338,10 +387,14 @@ const App: React.FC = () => {
 
           newTableaus[source.tableau] = newSourceTableau;
           newTableaus[target.tableau] = cardsToMv;
-
+          console.log(
+            `Moving ${cardsToMv.length} cards from tableau ${source.tableau} to tableau ${target.tableau}`
+          );
           setTableaus(newTableaus);
+          setSelectedCard(null);
         }
         if (source.position === cardStates.WASTE) {
+          console.log('moving card from waste');
           let newWaste = waste.splice(0);
           let newTargetTableau = tableaus[target.tableau].splice(0);
 
@@ -423,6 +476,12 @@ const App: React.FC = () => {
     }
   };
 
+  const deckReloadHandler = () => {
+    const newDeck = waste.splice(0);
+    setDeck(newDeck);
+    setWaste([]);
+  };
+
   if (gameState === gameStates.INITIAL) {
     newGame();
   }
@@ -444,6 +503,7 @@ const App: React.FC = () => {
             <Board
               cardClickHandler={cardClickHandler}
               cardDblClickHandler={cardDblClickHandler}
+              deckReloadHandler={deckReloadHandler}
               deck_empty={deck.length === 0}
               waste={waste}
               foundations={foundations}

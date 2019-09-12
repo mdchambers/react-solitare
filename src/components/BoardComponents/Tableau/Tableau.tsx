@@ -18,6 +18,7 @@ const Tableau = (props: Props) => {
     <React.Fragment>
       {props.tableaus.map((c, idx) => {
         if (c.length === 0) {
+          console.log("tableau empty");
           return (
             <TableauBase
               clickHandler={e =>

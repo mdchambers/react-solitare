@@ -10,11 +10,12 @@ import classes from "./Deck.module.scss";
 interface Props {
   deck_empty: boolean;
   onDeckClick: CardHandlerFunc;
+  deckReloadHandler: () => void;
 }
 
 const Deck = (props: Props) => {
   const card = props.deck_empty ? (
-    <CardPlaceholder solid />
+    <CardPlaceholder onClick={props.deckReloadHandler} solid />
   ) : (
     <Card
       onClick={(e: any) =>

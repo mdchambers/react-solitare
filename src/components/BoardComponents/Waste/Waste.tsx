@@ -23,6 +23,8 @@ const Waste = (props: Props) => {
   let card = null;
   if (props.cards.length > 0) {
     props.cards[0].position = cardStates.WASTE;
+    props.cards[0].visible = true;
+    console.log(props.cards[0]);
     card = (
       <Card
         onClick={e => props.onWasteClick(props.cards[0])}

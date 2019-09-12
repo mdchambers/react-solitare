@@ -4,6 +4,7 @@ import classes from "./CardPlaceholder.module.scss";
 
 interface Props {
   solid?: boolean;
+  onClick?: () => void;
 }
 
 const CardPlaceholder = (props: Props) => {
@@ -11,8 +12,18 @@ const CardPlaceholder = (props: Props) => {
   if (props.solid) {
     imgURI = process.env.PUBLIC_URL + "/img/deck_bottom.svg";
   }
+
   return (
-    <div className={classes.card}>
+    <div
+      onClick={
+        props.onClick
+          ? props.onClick
+          : () => {
+              return;
+            }
+      }
+      className={classes.card}
+    >
       <img src={imgURI}></img>
     </div>
   );

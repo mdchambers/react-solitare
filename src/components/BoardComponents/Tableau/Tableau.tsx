@@ -1,7 +1,8 @@
 import React from "react";
 
-import { CardSpec, CardHandlerFunc } from "../../../constants";
+import { CardSpec, CardHandlerFunc, cardStates } from "../../../constants";
 
+import TableauBase from "./TableauBase/TableauBase";
 import Column from "./Column/Column";
 
 import classes from "./Tableau.module.scss";
@@ -16,8 +17,22 @@ const Tableau = (props: Props) => {
   return (
     <React.Fragment>
       {props.tableaus.map((c, idx) => {
+        if (c.length === 0) {
+          return (
+            <TableauBase
+              clickHandler={e =>
+                props.onTableauClick({
+                  suite: 0,
+                  value: 0,
+                  tableau: idx,
+                  column: 0,
+                  position: cardStates.TABLEAU_BASE
+                })
+              }
+            />
+          );
+        }
         return (
-          // <div key={idx} className={classes.tableau}>
           <Column
             key={idx}
             tableauID={idx}
@@ -30,7 +45,6 @@ const Tableau = (props: Props) => {
             onColumnClick={props.onTableauClick}
             onColumnDblClick={props.onTableauDblClick}
           />
-          // </div>
         );
       })}
     </React.Fragment>

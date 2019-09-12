@@ -21,5 +21,6 @@ export const cardStates = {
   DECK: "deck",
   WASTE: "waste",
   FOUNDATION: "foundation",
-  TABLEAU: "tableau"
+  TABLEAU: "tableau",
+  TABLEAU_BASE: "tableau_base"
 };

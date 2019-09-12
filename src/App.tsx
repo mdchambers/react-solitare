@@ -93,6 +93,7 @@ const App: React.FC = () => {
     setDeck(shuffledCards);
     setWaste([]);
     setTableaus(newTableaus);
+    setFoundations([[], [], [], []]);
     setGameState(gameStates.RUNNING);
     setSelectedCard(null);
   };
@@ -323,6 +324,40 @@ const App: React.FC = () => {
       setWaste(newWaste);
       setTableaus(newTableaus);
       setSelectedCard(null);
+    }
+
+    // Move to empty foundation
+    if (target.tableau && target.position === cardStates.TABLEAU_BASE) {
+      if (source.value === 12 && source.visible) {
+        // Move to empty tableau
+        if (source.tableau && source.column) {
+          let newSourceTableau = tableaus[source.tableau].splice(0);
+          let cardsToMv = newSourceTableau.splice(source.column);
+
+          let newTableaus = tableaus.splice(0);
+
+          newTableaus[source.tableau] = newSourceTableau;
+          newTableaus[target.tableau] = cardsToMv;
+
+          setTableaus(newTableaus);
+        }
+        if (source.position === cardStates.WASTE) {
+          let newWaste = waste.splice(0);
+          let newTargetTableau = tableaus[target.tableau].splice(0);
+
+          let cardsToMove = newWaste.shift();
+          if (cardsToMove) {
+            newTargetTableau.push(cardsToMove);
+          }
+
+          let newTableaus = tableaus.splice(0);
+          newTableaus[target.tableau] = newTargetTableau;
+
+          setWaste(newWaste);
+          setTableaus(newTableaus);
+          setSelectedCard(null);
+        }
+      }
     }
   };
 

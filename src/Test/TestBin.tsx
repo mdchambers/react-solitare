@@ -1,5 +1,6 @@
 import React from "react";
 
+import TestStack from "./TestStack";
 import TestCard from "./TestCard";
 
 import { CardSpec } from "../constants";
@@ -32,19 +33,23 @@ const TestBin = (props: Props) => {
   });
 
   return (
+    // <div>
+    //   <TestStack root cards={props.cards} />
+    // </div>
+
     <div
-      ref={drop}
       className="column"
+      ref={drop}
       style={{ backgroundColor: isOver ? "grey" : "green" }}
     >
       {props.cards.map((c, idx) => {
         return (
           <TestCard
-            {...c}
-            key={idx}
+            renderHeight={renderHeights[idx]}
             column={props.id}
             position={idx}
-            renderHeight={renderHeights[idx]}
+            card={c}
+            key={idx}
           />
         );
       })}

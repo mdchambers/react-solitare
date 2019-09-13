@@ -18,14 +18,22 @@
   color: purple;
 }
 
+.child-stack {
+  transform: translateY(-125px);
+}
+
 .card {
   height: 145px;
   // height: 400px;
   width: 100px;
+  // transform: translateY(-125px);
+
+}
+
+.card:not(:last-child){
 }
 
 .card img {
   max-width: 100%;
   max-height: 100%;
 }
-

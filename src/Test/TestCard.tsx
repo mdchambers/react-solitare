@@ -2,6 +2,8 @@ import React from "react";
 
 import { useDrag } from "react-dnd";
 
+import { CardSpec, cardStates } from "../constants";
+
 import "./test.scss";
 
 const ItemTypes = {
@@ -9,24 +11,43 @@ const ItemTypes = {
 };
 
 interface Props {
-  suite: number;
-  value: number;
-  column: number;
-  position: number;
-  visible?: boolean;
-  renderHeight: number;
+  card: CardSpec;
+  column?: number;
+  position?: number;
+  renderHeight?: number;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
 const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
 
 const Card = (props: Props) => {
+  const { suite, value, visible } = props.card;
+
   const [{ isDragging }, drag] = useDrag({
-    item: { type: "card", suite: props.suite, value: props.value, column: props.column, position: props.position  },
+    item: {
+      type: "card",
+      position: props.position,
+      column: props.column,
+      suite: suite,
+      value: value,
+      visible: visible
+    },
+    isDragging: monitor => {
+      console.log("something is dragging");
+      if (props.column !== undefined && props.position !== undefined) {
+        return (
+          props.column === monitor.getItem().column &&
+          props.position >= monitor.getItem().position
+        );
+      } else {
+        return false;
+      }
+    },
     collect: monitor => ({
       isDragging: !!monitor.isDragging()
     })
   });
+
   const fetchImgUrl = (suite: number, value: number) => {
     let uri = cardDir + "/";
     switch (value) {
@@ -51,28 +72,26 @@ const Card = (props: Props) => {
   };
 
   let imgURI;
-  if (props.visible) {
-    imgURI = fetchImgUrl(props.suite, props.value);
+  if (visible) {
+    imgURI = fetchImgUrl(suite, value);
   } else {
     imgURI = process.env.PUBLIC_URL + "/img/card_back.svg";
   }
+
+
+  let cardStyle = {};
+  if(props.renderHeight){
+    cardStyle = { height: props.renderHeight};
+  }
   return (
     <React.Fragment>
-      <div ref={drag} className="card" style={{height: props.renderHeight}}>
-        <div
-          className="cardOverlay"
-          // style={{ opacity: props.selected ? 0.75 : 1 }}
-        >
-          <img
-            // onClick={props.onClick}
-            // onDoubleClick={props.onDblClick}
-            style={{ opacity: isDragging ? 0 : 1 }}
-            src={imgURI}
-            alt="card face"
-          ></img>
-        </div>
+      <div ref={drag} className="card" style={cardStyle}>
+        <img
+          style={{ opacity: isDragging ? 0 : 1 }}
+          src={imgURI}
+          alt="card face"
+        ></img>
       </div>
-      {/* {props.selected ? <div className={classes.overlay}></div> : null} */}
     </React.Fragment>
   );
 };

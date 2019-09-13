@@ -14,7 +14,7 @@ import "./test.scss";
 //  Rerender
 
 const genStacks = (): CardSpec[][] => {
-  const tabSuites = [[0, 1, 0, 2, 3], [0, 1, 2]];
+  const tabSuites = [[0, 1, 0, 2, 3], [1, 1, 2]];
   const tabValues = [[1, 13, 3, 5, 6], [1, 11, 8]];
   // const tabSuites = [[0]];
   // const tabValues = [[1]];

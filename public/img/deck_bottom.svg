@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 9.0, SVG Export Plug-In  -->
+
+<!-- This set of SVG files is a complete cards game with figures, numbers	-->
+
+<!--    and backs of cards completely designed in SVG.				-->
+
+<!--    									-->
+
+<!--    Copyright (C) 2004 David Bellot						-->
+
+<!--										-->
+
+<!--    This library is free software; you can redistribute it and/or		-->
+
+<!--    modify it under the terms of the GNU Lesser General Public		-->
+
+<!--    License as published by the Free Software Foundation; either		-->
+
+<!--    version 2 of the License, or (at your option) any later version		-->
+
+<!--										-->
+
+<!--    This library is distributed in the hope that it will be useful,		-->
+
+<!--    but WITHOUT ANY WARRANTY; without even the implied warranty of		-->
+
+<!--    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU	-->
+
+<!--    Lesser General Public License for more details.				-->
+
+<!--										-->
+
+<!--    You should have received a copy of the GNU Lesser General Public	-->
+
+<!--    License along with this library; if not, write to the Free Software	-->
+
+<!--    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA-->
+
+<!--										-->
+
+<!--    Contact the author David Bellot at bellot@stat.berkeley.edu or 		-->
+
+<!--    david.bellot@free.fr or yimyom@users.sourceforge.net			-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="209"
+   height="303"
+   viewBox="0 0 167.18359 242.8623"
+   xml:space="preserve"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="empty_card2.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"><metadata
+     id="metadata448"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs446"><marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true"><path
+         id="path4728"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.8) translate(12.5,0)" /></marker></defs><sodipodi:namedview
+     inkscape:window-height="1003"
+     inkscape:window-width="1280"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:showpageshadow="false"
+     width="209px"
+     height="303px"
+     inkscape:zoom="2.4837119"
+     inkscape:cx="54.421417"
+     inkscape:cy="160.78088"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:current-layer="svg2"
+     showgrid="false"
+     inkscape:measure-start="210.107,301.779"
+     inkscape:measure-end="210.107,1.13879"
+     inkscape:window-maximized="0" /><rect
+     id="rect227"
+     width="162.89876"
+     height="236.91141"
+     x="2.3578022"
+     y="2.7800243"
+     style="fill:#8d8282;stroke:#8d8282;stroke-width:3.89511776;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+     ry="14.66806" /><ellipse
+     style="fill:#8d8282;stroke:#8d8282;stroke-width:3.89511776;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+     id="path230"
+     cx="83.807175"
+     cy="121.23573"
+     rx="45.112888"
+     ry="46.060421" /></svg>

@@ -1,18 +1,31 @@
 import React from "react";
 
 import Card from "../../Card/Card";
+import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
+
+import { CardHandlerFunc, cardStates } from "../../../constants";
 
 import classes from "./Deck.module.scss";
 
 interface Props {
   deck_empty: boolean;
+  onDeckClick: CardHandlerFunc;
+  deckReloadHandler: () => void;
 }
 
 const Deck = (props: Props) => {
   const card = props.deck_empty ? (
-    <div />
+    <CardPlaceholder onClick={props.deckReloadHandler} solid />
   ) : (
-    <Card suite={0} value={0} visible={false} />
+    <Card
+      onClick={(e: any) =>
+        props.onDeckClick({ suite: 0, value: 0, position: cardStates.DECK })
+      }
+      suite={0}
+      value={0}
+      selected={false}
+      visible={false}
+    />
   );
   return <div className={classes.deck}>{card}</div>;
 };

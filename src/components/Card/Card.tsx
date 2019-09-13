@@ -2,14 +2,20 @@ import React from "react";
 
 import { useDrag } from "react-dnd";
 
+import { CardHandlerFunc } from "../../constants";
+
 import classes from "./Card.module.scss";
 
 // Suite: 0-3
-// Value: 1-12
+// Value: 1-13
 interface Props {
   suite: number;
   value: number;
-  visible: boolean;
+  visible?: boolean;
+  selected: boolean;
+
+  onClick?: (event: any) => void;
+  onDblClick?: (event: any) => void;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
@@ -29,13 +35,13 @@ const Card = (props: Props) => {
       case 1:
         uri += "ace";
         break;
-      case 10:
+      case 11:
         uri += "jack";
         break;
-      case 11:
+      case 12:
         uri += "queen";
         break;
-      case 12:
+      case 13:
         uri += "king";
         break;
       default:
@@ -53,9 +59,23 @@ const Card = (props: Props) => {
     imgURI = process.env.PUBLIC_URL + "/img/card_back.svg";
   }
   return (
-    <div ref={drag} className={classes.card}>
-      <img style={{ opacity: isDragging ? 0.1 : 1 }} src={imgURI}></img>
-    </div>
+    <React.Fragment>
+      <div ref={drag} className={classes.card}>
+        <div
+          className={classes.overlay}
+          style={{ opacity: props.selected ? 0.75 : 1 }}
+        >
+          <img
+            onClick={props.onClick}
+            onDoubleClick={props.onDblClick}
+            style={{ opacity: isDragging ? 0.1 : 1 }}
+            src={imgURI}
+            alt="card face"
+          ></img>
+        </div>
+      </div>
+      {/* {props.selected ? <div className={classes.overlay}></div> : null} */}
+    </React.Fragment>
   );
 };
 

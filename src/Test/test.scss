@@ -6,6 +6,11 @@
   padding: 20px;
 }
 
+.droptarget {
+  position: absolute;
+  width: 100px;
+  height: 100%;
+}
 
 .column {
   display: grid;
@@ -15,6 +20,7 @@
 
 .card {
   height: 145px;
+  // height: 400px;
   width: 100px;
 }
 

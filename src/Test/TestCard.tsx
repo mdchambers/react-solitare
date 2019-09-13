@@ -11,7 +11,10 @@ const ItemTypes = {
 interface Props {
   suite: number;
   value: number;
+  column: number;
+  position: number;
   visible?: boolean;
+  renderHeight: number;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
@@ -19,7 +22,7 @@ const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
 
 const Card = (props: Props) => {
   const [{ isDragging }, drag] = useDrag({
-    item: { type: "card" },
+    item: { type: "card", suite: props.suite, value: props.value, column: props.column, position: props.position  },
     collect: monitor => ({
       isDragging: !!monitor.isDragging()
     })
@@ -55,7 +58,7 @@ const Card = (props: Props) => {
   }
   return (
     <React.Fragment>
-      <div ref={drag} className="card">
+      <div ref={drag} className="card" style={{height: props.renderHeight}}>
         <div
           className="cardOverlay"
           // style={{ opacity: props.selected ? 0.75 : 1 }}
@@ -63,7 +66,7 @@ const Card = (props: Props) => {
           <img
             // onClick={props.onClick}
             // onDoubleClick={props.onDblClick}
-            style={{ opacity: isDragging ? 0.1 : 1 }}
+            style={{ opacity: isDragging ? 0 : 1 }}
             src={imgURI}
             alt="card face"
           ></img>

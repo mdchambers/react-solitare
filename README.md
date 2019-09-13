@@ -55,3 +55,11 @@ A simple solitare game built with React hooks and Redux
     * Deal card
   * Waste
     * Select card for move
+
+
+## DragNDrop Considerations
+
+* One/multi card drag n drop is working
+* Need to refactor so can drag substacks of cards
+  * Render cards hierarchially/nested?
+    * Board => Bin => Stack { Card, Stack}

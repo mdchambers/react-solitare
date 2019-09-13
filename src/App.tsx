@@ -143,77 +143,9 @@ const App: React.FC = () => {
     }
   };
 
-  const randomCard = () => {
-    // return [Math.floor(Math.random() * 4), Math.floor(Math.random() * 12) + 1];
-  };
-
-  const reroll = () => {
-    newGame();
-  };
-
-  const addCard = () => {
-    // // console.log("add card");
-    // const newCards = [];
-    // for (let i = 0; i < cards.length; i += 1) {
-    //   newCards[i] = cards[i].slice();
-    // }
-    // newCards.push(randomCard());
-    // // console.log(newCards);
-    // setCards(newCards);
-  };
-  const reset = () => {
-    // setCards(initialCards);
-  };
-
-  const setToFullSet = () => {
-    // const fullCards = [];
-    // for (let s = 0; s < 4; s += 1) {
-    //   for (let v = 1; v <= 12; v += 1) {
-    //     fullCards.push([s, v]);
-    //   }
-    // }
-    // setCards(fullCards);
-  };
-
-  const populateTableau = () => {
-    // return tableau;
-  };
-
-  const populateFoundations = () => {
-    // return [[0, 1], [1, 1], [2, 1], [3, 1]];
-  };
-
-  type C = { suite: number; value: number; position: string; opts?: any };
-  const logCard = ({ suite, value, position, opts }: C): void => {
-    let output = `card of suite ${suiteMap[suite]} value ${
-      value > 9 ? valueMap[value - 10] : value
-    } @ ${position} clicked`;
-    if (opts) {
-      output += ` col: ${opts.tableauID} pos: ${opts.columnID}`;
-    }
-    console.log(output);
-  };
-
-  const logSelectedCard = () => {
-    let output;
-    if (selectedCard) {
-      output = `card of suite ${suiteMap[selectedCard.suite]} value ${
-        selectedCard.value > 9
-          ? valueMap[selectedCard.value - 10]
-          : selectedCard.value
-      } @ ${selectedCard.position} clicked`;
-      if (selectedCard.tableau && selectedCard.column) {
-        output += ` col: ${selectedCard.tableau} pos: ${selectedCard.column}`;
-      }
-    } else {
-      output = "no card selected";
-    }
-    console.log(output);
-  };
-
   const cardClickHandler = (card: CardSpec | null): void => {
-    console.log("card clicked");
-    console.log(card);
+    // console.log("card clicked");
+    // console.log(card);
     // If a card is already selected:
     // Unselect if same card
     // console.log(card);
@@ -234,7 +166,7 @@ const App: React.FC = () => {
         switch (card.position) {
           // Draw new card from deck
           case cardStates.DECK:
-            console.log("deck click");
+            // console.log("deck click");
             if (deck.length > 0) {
               const newDeck = deck.slice(0);
               const newWaste = waste.slice(0);
@@ -312,9 +244,7 @@ const App: React.FC = () => {
         targetPositionValid = false;
       }
     }
-    console.log(
-      `Valid move: ${suiteValid && valueValid && targetPositionValid}`
-    );
+
     return suiteValid && valueValid && targetPositionValid;
   };
 
@@ -328,15 +258,15 @@ const App: React.FC = () => {
       target.tableau !== undefined &&
       target.column !== undefined
     ) {
-      console.log("moving card");
+      // console.log("moving card");
       let newSourceTableau = tableaus[source.tableau].splice(0);
       let newTargetTableau = tableaus[target.tableau].splice(0);
 
       let cardsToMove = newSourceTableau.splice(source.column);
       newTargetTableau = newTargetTableau.concat(cardsToMove);
 
-      console.log(`Soruce: ${newSourceTableau}`);
-      console.log(`Target: ${newTargetTableau}`);
+      // console.log(`Soruce: ${newSourceTableau}`);
+      // console.log(`Target: ${newTargetTableau}`);
 
       let newTableaus = tableaus.splice(0);
       newTableaus[source.tableau] = newSourceTableau;
@@ -351,7 +281,7 @@ const App: React.FC = () => {
       target.tableau !== undefined &&
       target.column !== undefined
     ) {
-      console.log("moving card");
+      // console.log("moving card");
       let newWaste = waste.splice(0);
       let newTargetTableau = tableaus[target.tableau].splice(0);
 
@@ -373,12 +303,12 @@ const App: React.FC = () => {
       target.tableau !== undefined &&
       target.position === cardStates.TABLEAU_BASE
     ) {
-      console.log("moving to empty tableau");
-      console.log(source);
-      console.log(target);
+      // console.log("moving to empty tableau");
+      // console.log(source);
+      // console.log(target);
       if (source.value === 13 && source.visible) {
         // Move to empty tableau
-        console.log("move valid");
+        // console.log("move valid");
         if (source.tableau !== undefined && source.column !== undefined) {
           let newSourceTableau = tableaus[source.tableau].splice(0);
           let cardsToMv = newSourceTableau.splice(source.column);
@@ -387,14 +317,14 @@ const App: React.FC = () => {
 
           newTableaus[source.tableau] = newSourceTableau;
           newTableaus[target.tableau] = cardsToMv;
-          console.log(
-            `Moving ${cardsToMv.length} cards from tableau ${source.tableau} to tableau ${target.tableau}`
-          );
+          // console.log(
+          //   `Moving ${cardsToMv.length} cards from tableau ${source.tableau} to tableau ${target.tableau}`
+          // );
           setTableaus(newTableaus);
           setSelectedCard(null);
         }
         if (source.position === cardStates.WASTE) {
-          console.log("moving card from waste");
+          // console.log("moving card from waste");
           let newWaste = waste.splice(0);
           let newTargetTableau = tableaus[target.tableau].splice(0);
 

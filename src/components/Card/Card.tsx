@@ -2,7 +2,6 @@ import React from "react";
 
 import { useDrag } from "react-dnd";
 
-import { CardHandlerFunc } from "../../constants";
 
 import classes from "./Card.module.scss";
 
@@ -20,7 +19,6 @@ interface Props {
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
 const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
-const valueMap: string[] = ["jack", "queen", "king"];
 
 const Card = (props: Props) => {
   const [{ isDragging }, drag] = useDrag({

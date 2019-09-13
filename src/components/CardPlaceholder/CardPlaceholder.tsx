@@ -24,7 +24,7 @@ const CardPlaceholder = (props: Props) => {
       }
       className={classes.card}
     >
-      <img src={imgURI}></img>
+      <img alt="placeholder" src={imgURI}></img>
     </div>
   );
 };

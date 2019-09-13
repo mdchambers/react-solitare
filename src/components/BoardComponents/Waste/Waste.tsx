@@ -4,7 +4,6 @@ import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
 
 import {
   CardSpec,
-  gameStates,
   CardHandlerFunc,
   cardStates
 } from "../../../constants";

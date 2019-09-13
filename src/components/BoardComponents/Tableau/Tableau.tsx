@@ -5,8 +5,6 @@ import { CardSpec, CardHandlerFunc, cardStates } from "../../../constants";
 import TableauBase from "./TableauBase/TableauBase";
 import Column from "./Column/Column";
 
-import classes from "./Tableau.module.scss";
-
 interface Props {
   tableaus: CardSpec[][];
   onTableauClick: CardHandlerFunc;

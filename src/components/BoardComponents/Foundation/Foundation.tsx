@@ -2,9 +2,7 @@ import React, { ReactElement } from "react";
 import Card from "../../Card/Card";
 import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
 
-import { CardSpec, CardHandlerFunc, cardStates } from "../../../constants";
-
-import classes from "./Foundation.module.scss";
+import { CardSpec, CardHandlerFunc } from "../../../constants";
 
 interface Props {
   foundations: CardSpec[][];

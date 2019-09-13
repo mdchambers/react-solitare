@@ -22,15 +22,16 @@ const Waste = (props: Props) => {
   // Render top card
   let card = null;
   if (props.cards.length > 0) {
-    props.cards[0].position = cardStates.WASTE;
-    props.cards[0].visible = true;
-    console.log(props.cards[0]);
+    let topcard = props.cards[0]
+    topcard.position = cardStates.WASTE;
+    topcard.visible = true;
+    console.log(topcard);
     card = (
       <Card
-        onClick={e => props.onWasteClick(props.cards[0])}
-        onDblClick={e => props.onWasteDblClick(props.cards[0])}
+        onClick={e => props.onWasteClick(topcard)}
+        onDblClick={e => props.onWasteDblClick(topcard)}
         selected={props.selected}
-        {...props.cards[0]}
+        {...topcard}
       />
     );
   } else {

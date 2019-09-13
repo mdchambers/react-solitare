@@ -7,7 +7,7 @@ import { CardHandlerFunc } from "../../constants";
 import classes from "./Card.module.scss";
 
 // Suite: 0-3
-// Value: 1-12
+// Value: 1-13
 interface Props {
   suite: number;
   value: number;
@@ -35,13 +35,13 @@ const Card = (props: Props) => {
       case 1:
         uri += "ace";
         break;
-      case 10:
+      case 11:
         uri += "jack";
         break;
-      case 11:
+      case 12:
         uri += "queen";
         break;
-      case 12:
+      case 13:
         uri += "king";
         break;
       default:

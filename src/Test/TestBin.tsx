@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
 
-const TestBin = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+import { CardSpec } from "../constants";
+
+interface Props {
+  id: number;
+  cards: CardSpec[];
 }
 
-export default TestBin
+const TestBin = (props: Props) => {
+  return <div></div>;
+};
+
+export default TestBin;

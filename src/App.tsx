@@ -369,7 +369,10 @@ const App: React.FC = () => {
     }
 
     // Move to empty foundation
-    if (target.tableau !== undefined && target.position === cardStates.TABLEAU_BASE) {
+    if (
+      target.tableau !== undefined &&
+      target.position === cardStates.TABLEAU_BASE
+    ) {
       console.log("moving to empty tableau");
       console.log(source);
       console.log(target);
@@ -485,13 +488,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Header
-        newGameHandler={newGame}
-        rerollHandler={reroll}
-        addHandler={addCard}
-        resetHandler={reset}
-        fullSetHandler={setToFullSet}
-      />
+      <Header newGameHandler={newGame} />
       <Switch>
         <Route path="/test" render={props => <Testbed />} />
         <Route

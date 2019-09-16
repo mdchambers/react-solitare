@@ -45,8 +45,24 @@ const Testbed = () => {
     console.log(`dropped on column ${idx}`);
     console.log(item);
 
+    if(item.column === idx){
+      return;
+    }
 
+    const sourceStack = stacks[item.column].splice(0);
+
+    const cardsToMv = sourceStack.splice(item.position);
+
+    const targetStack = stacks[idx].concat(cardsToMv);
+
+    const newStacks = stacks.splice(0);
+    newStacks[item.column] = sourceStack;
+    newStacks[idx] = targetStack;
+    // console.log(newStacks);
+
+    setStacks(newStacks);
   };
+  // console.log(stacks);
 
   const bins = stacks.map((stack, idx) => {
     return (

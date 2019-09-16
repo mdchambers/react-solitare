@@ -33,7 +33,6 @@ const Card = (props: Props) => {
       visible: visible
     },
     isDragging: monitor => {
-      console.log("something is dragging");
       if (props.column !== undefined && props.position !== undefined) {
         return (
           props.column === monitor.getItem().column &&
@@ -78,10 +77,9 @@ const Card = (props: Props) => {
     imgURI = process.env.PUBLIC_URL + "/img/card_back.svg";
   }
 
-
   let cardStyle = {};
-  if(props.renderHeight){
-    cardStyle = { height: props.renderHeight};
+  if (props.renderHeight) {
+    cardStyle = { height: props.renderHeight };
   }
   return (
     <React.Fragment>

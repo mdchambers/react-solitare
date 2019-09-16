@@ -17,20 +17,14 @@
   grid-auto-rows: 25px;
   color: purple;
 }
-
-.child-stack {
-  transform: translateY(-125px);
-}
-
 .card {
   height: 145px;
   // height: 400px;
   width: 100px;
   // transform: translateY(-125px);
+  margin: 10px;
 
-}
 
-.card:not(:last-child){
 }
 
 .card img {

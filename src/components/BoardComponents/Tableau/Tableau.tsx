@@ -9,8 +9,10 @@ interface Props {
   tableaus: CardSpec[][];
   onTableauClick: CardHandlerFunc;
   onTableauDblClick: CardHandlerFunc;
+  onTableauDrop: (item: any, id: number) => void;
   selection: { tableau: number; column: number } | null;
 }
+
 const Tableau = (props: Props) => {
   return (
     <React.Fragment>
@@ -23,9 +25,10 @@ const Tableau = (props: Props) => {
                 props.onTableauClick({
                   suite: 0,
                   value: 0,
-                  tableau: idx,
-                  column: 0,
-                  position: cardStates.TABLEAU_BASE
+                  visible: false,
+                  column: idx,
+                  position: 0,
+                  location: cardStates.TABLEAU_BASE
                 })
               }
             />
@@ -35,6 +38,7 @@ const Tableau = (props: Props) => {
           <Column
             key={idx}
             tableauID={idx}
+            onDrop={item => props.onTableauDrop(item, idx)}
             selection={
               props.selection && props.selection.tableau === idx
                 ? props.selection.column

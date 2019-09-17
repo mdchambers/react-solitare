@@ -1,10 +1,10 @@
 export interface CardSpec {
   suite: number;
   value: number;
-  visible?: boolean;
-  position?: string;
-  tableau?: number;
+  visible: boolean;
+  location?: string;
   column?: number;
+  position?: number;
 }
 
 export interface CardHandlerFunc {

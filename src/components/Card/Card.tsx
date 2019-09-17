@@ -4,25 +4,42 @@ import { useDrag } from "react-dnd";
 
 
 import classes from "./Card.module.scss";
+import { CardSpec, cardStates } from "../../constants";
 
 // Suite: 0-3
 // Value: 1-13
 interface Props {
-  suite: number;
-  value: number;
-  visible?: boolean;
+  card: CardSpec;
   selected: boolean;
-
   onClick?: (event: any) => void;
   onDblClick?: (event: any) => void;
+  renderHeight?: number;
 }
 
 const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
 const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
 
 const Card = (props: Props) => {
+  const {suite, value, visible, column, position} = props.card;
   const [{ isDragging }, drag] = useDrag({
-    item: { type: "card" },
+    item: {
+      type: "card",
+      position: position,
+      column: column,
+      suite: suite,
+      value: value,
+      visible: visible
+    },
+    isDragging: monitor => {
+      if (position !== undefined && column !== undefined) {
+        return (
+          column === monitor.getItem().column &&
+          position >= monitor.getItem().position
+        );
+      } else {
+        return false;
+      }
+    },
     collect: monitor => ({
       isDragging: !!monitor.isDragging()
     })
@@ -51,14 +68,20 @@ const Card = (props: Props) => {
   };
 
   let imgURI;
-  if (props.visible) {
-    imgURI = fetchImgUrl(props.suite, props.value);
+  if (visible) {
+    imgURI = fetchImgUrl(suite, value);
   } else {
     imgURI = process.env.PUBLIC_URL + "/img/card_back.svg";
   }
+
+  let cardStyle;
+
+  if(props.renderHeight){
+    cardStyle = {height: props.renderHeight};
+  }
   return (
     <React.Fragment>
-      <div ref={drag} className={classes.card}>
+      <div ref={drag} className={classes.card} style={cardStyle}>
         <div
           className={classes.overlay}
           style={{ opacity: props.selected ? 0.75 : 1 }}
@@ -66,7 +89,7 @@ const Card = (props: Props) => {
           <img
             onClick={props.onClick}
             onDoubleClick={props.onDblClick}
-            style={{ opacity: isDragging ? 0.1 : 1 }}
+            style={{ opacity: isDragging ? 0 : 1 }}
             src={imgURI}
             alt="card face"
           ></img>

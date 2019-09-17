@@ -19,12 +19,10 @@ const Deck = (props: Props) => {
   ) : (
     <Card
       onClick={(e: any) =>
-        props.onDeckClick({ suite: 0, value: 0, position: cardStates.DECK })
+        props.onDeckClick({ suite: 0, value: 0, visible: false, location: cardStates.DECK })
       }
-      suite={0}
-      value={0}
+      card={{suite: 0, value: 0, visible: false}}
       selected={false}
-      visible={false}
     />
   );
   return <div className={classes.deck}>{card}</div>;

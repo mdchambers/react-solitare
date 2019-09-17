@@ -19,8 +19,7 @@ const Foundation = (props: Props) => {
           onClick={e => props.onFoundationClick(f[0])}
           key={idx}
           selected={props.selection === idx}
-          {...f[f.length - 1]}
-          visible={true}
+          card={f[f.length - 1]}
         />
       );
     } else {

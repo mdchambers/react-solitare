@@ -1,7 +1,7 @@
 import React from "react";
 
 import Deck from "../../components/BoardComponents/Deck/Deck";
-import Foundation from "../../components/BoardComponents/Foundation/Foundation";
+import Foundations from "../../components/BoardComponents/Foundations/Foundations";
 import Tableau from "../../components/BoardComponents/Tableau/Tableau";
 import Waste from "../../components/BoardComponents/Waste/Waste";
 
@@ -12,7 +12,7 @@ import classes from "./Board.module.scss";
 interface Props {
   cardClickHandler: CardHandlerFunc;
   cardDblClickHandler: CardHandlerFunc;
-  cardDropHandler: (item: any, id: number) => void;
+  cardDropHandler: (item: any, target: string, id: number) => void;
   deckReloadHandler: () => void;
   deck_empty: boolean;
   waste: CardSpec[];
@@ -39,9 +39,10 @@ const Board = (props: Props) => {
             : false
         }
       />
-      <Foundation
+      <Foundations
         foundations={props.foundations}
         onFoundationClick={props.cardClickHandler}
+        onFoundationDrop={props.cardDropHandler}
         selection={
           props.selectedCard &&
           props.selectedCard.position === cardStates.FOUNDATION

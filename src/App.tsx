@@ -407,17 +407,27 @@ const App: React.FC = () => {
     }
   };
 
-  const cardDropHandler = (item: any, targetID: number) => {
+  const cardDropHandler = (item: any, target: string, targetID: number) => {
     console.log("card dropped");
     console.log(item);
     console.log(targetID);
 
-    const targetCard = tableaus[targetID][tableaus[targetID].length - 1];
-    if (validMove(item, targetCard)) {
-      console.log("valid");
-      moveCard(item, targetCard);
-    } else {
-      console.log("invalid");
+    const sourceCard = { ...item };
+
+    // Tableau to tableau move
+    if (
+      target === cardStates.TABLEAU &&
+      sourceCard.location === cardStates.TABLEAU
+    ) {
+      const targetCard = {
+        ...tableaus[targetID][tableaus[targetID].length - 1]
+      };
+      if (validMove(sourceCard, targetCard)) {
+        console.log("valid");
+        moveCard(sourceCard, targetCard);
+      } else {
+        console.log("invalid");
+      }
     }
   };
 

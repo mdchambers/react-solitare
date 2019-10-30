@@ -20,10 +20,11 @@ const cardDir: string = process.env.PUBLIC_URL + "/img/cards";
 const suiteMap: string[] = ["clubs", "diamonds", "hearts", "spades"];
 
 const Card = (props: Props) => {
-  const {suite, value, visible, column, position} = props.card;
+  const {suite, value, visible, column, position, location} = props.card;
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: "card",
+      location: location,
       position: position,
       column: column,
       suite: suite,

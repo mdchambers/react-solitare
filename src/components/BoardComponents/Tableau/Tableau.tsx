@@ -9,7 +9,7 @@ interface Props {
   tableaus: CardSpec[][];
   onTableauClick: CardHandlerFunc;
   onTableauDblClick: CardHandlerFunc;
-  onTableauDrop: (item: any, id: number) => void;
+  onTableauDrop: (item: any, target: string, id: number) => void;
   selection: { tableau: number; column: number } | null;
 }
 
@@ -38,7 +38,7 @@ const Tableau = (props: Props) => {
           <Column
             key={idx}
             tableauID={idx}
-            onDrop={item => props.onTableauDrop(item, idx)}
+            onDrop={item => props.onTableauDrop(item, cardStates.TABLEAU, idx)}
             selection={
               props.selection && props.selection.tableau === idx
                 ? props.selection.column

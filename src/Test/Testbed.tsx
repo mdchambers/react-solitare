@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import { CardSpec } from "../constants";
 
-import Tableau from "../components/BoardComponents/Tableau/Tableau";
+import TestBin from "./TestBin";
 
-import classes from "./Testbed.module.scss";
+import "./test.scss";
 
 // Cards are draggable (useDrag)
 // Columns are droppable (useDrop)
@@ -13,39 +13,71 @@ import classes from "./Testbed.module.scss";
 //  Add card to destination array
 //  Rerender
 
-// Creates 7 stacks of ten cards
-const populateTableau = () => {
-  const tableau = [];
-  for (let i = 1; i <= 7; i += 1) {
-    const column = [];
-    for (let j = 1; j <= i; j += 1) {
-      column.push([i % 4, j]);
+const genStacks = (): CardSpec[][] => {
+  const tabSuites = [[0, 1, 0, 2, 3], [1, 1, 2]];
+  const tabValues = [[1, 13, 3, 5, 6], [1, 11, 8]];
+  // const tabSuites = [[0]];
+  // const tabValues = [[1]];
+
+  const newStacks: CardSpec[][] = [];
+  for (let i = 0; i < tabSuites.length; i += 1) {
+    newStacks.push([]);
+    for (let j = 0; j < tabSuites[i].length; j += 1) {
+      newStacks[i].push({
+        suite: tabSuites[i][j],
+        value: tabValues[i][j],
+        visible: true
+      });
     }
-    tableau.push(column);
   }
-  return tableau;
+
+  while (newStacks.length < 7) {
+    newStacks.push([]);
+  }
+
+  return newStacks;
 };
-// const populateTableau = () => {
-//   return [
-//     [[1, 1], [1,2]],
-//     [[1, 1]],
-//     [[1, 1]],
-//     [[1, 1]],
-//     [[1, 1]],
-//     [[1, 1]],
-//     [[1, 1]],
-//     [[1, 1]],
-//     [[1, 1]]
-//   ];
-// };
 
 const Testbed = () => {
+  const [stacks, setStacks] = useState<CardSpec[][]>(genStacks());
+
+  const handleDrop = (item: any, idx: number): void => {
+    console.log(`dropped on column ${idx}`);
+    console.log(item);
+
+    if(item.column === idx){
+      return;
+    }
+
+    const sourceStack = stacks[item.column].splice(0);
+
+    const cardsToMv = sourceStack.splice(item.position);
+
+    const targetStack = stacks[idx].concat(cardsToMv);
+
+    const newStacks = stacks.splice(0);
+    newStacks[item.column] = sourceStack;
+    newStacks[idx] = targetStack;
+    // console.log(newStacks);
+
+    setStacks(newStacks);
+  };
+  // console.log(stacks);
+
+  const bins = stacks.map((stack, idx) => {
+    return (
+      <TestBin
+        key={idx}
+        id={idx}
+        cards={stack}
+        onDrop={i => handleDrop(i, idx)}
+      />
+    );
+  });
   return (
     <React.Fragment>
       <p>testbed</p>
-      <div className={classes.board}>
-        {/* <Tableau tableaus={cards} /> */}
-      </div>
+      <div className="board">{bins}</div>
     </React.Fragment>
   );
 };

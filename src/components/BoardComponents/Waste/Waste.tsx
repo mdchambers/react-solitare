@@ -4,7 +4,6 @@ import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
 
 import {
   CardSpec,
-  gameStates,
   CardHandlerFunc,
   cardStates
 } from "../../../constants";
@@ -23,7 +22,7 @@ const Waste = (props: Props) => {
   let card = null;
   if (props.cards.length > 0) {
     let topcard = props.cards[0]
-    topcard.position = cardStates.WASTE;
+    topcard.location = cardStates.WASTE;
     topcard.visible = true;
     console.log(topcard);
     card = (
@@ -31,7 +30,7 @@ const Waste = (props: Props) => {
         onClick={e => props.onWasteClick(topcard)}
         onDblClick={e => props.onWasteDblClick(topcard)}
         selected={props.selected}
-        {...topcard}
+        card={topcard}
       />
     );
   } else {

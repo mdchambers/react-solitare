@@ -1,28 +1,32 @@
 import React, { ReactElement } from "react";
+import { useDrop } from "react-dnd";
+
+import Foundation from "./Foundation/Foundation";
 import Card from "../../Card/Card";
 import CardPlaceholder from "../../CardPlaceholder/CardPlaceholder";
 
 import { CardSpec, CardHandlerFunc, cardStates } from "../../../constants";
 
-import classes from "./Foundation.module.scss";
-
 interface Props {
   foundations: CardSpec[][];
   onFoundationClick: CardHandlerFunc;
+  onFoundationDrop: (item: any, target: string, idx: number) => void;
   selection?: number;
 }
 
-const Foundation = (props: Props) => {
+const Foundations = (props: Props) => {
   let topcards: (ReactElement | null)[] = [];
+
   props.foundations.forEach((f, idx) => {
     if (f.length > 0) {
       topcards.push(
-        <Card
-          onClick={e => props.onFoundationClick(f[0])}
+        <Foundation
+          onClick={(e: any) => props.onFoundationClick(f[0])}
+          onDrop={(item: any) =>
+            props.onFoundationDrop(item, cardStates.FOUNDATION, idx)
+          }
           key={idx}
-          selected={props.selection === idx}
-          {...f[f.length - 1]}
-          visible={true}
+          card={f[f.length - 1]}
         />
       );
     } else {
@@ -32,4 +36,4 @@ const Foundation = (props: Props) => {
   return <React.Fragment>{topcards}</React.Fragment>;
 };
 
-export default Foundation;
+export default Foundations;
